@@ -34,7 +34,10 @@
                 <tr *ngFor="let topic of topics">
                     <td>{{topic.id}}</td>
                     <td>{{topic.title}}</td>
-                    <th><button class="btn btn-danger float-end"><i class="bi bi-trash"></i></button></th>
+                    <th>
+                        <button *ngIf="user.role == 'admin' || user.id == topic.user_id" (click)="deleteTopic()" data-bs-toggle="modal" data-bs-target="#deleteTopic" (click)="selectTmpTopic(topic)" class="btn btn-outline-danger btn-sm float-end" ><i class="bi bi-trash"></i></button>
+                        <button *ngIf="user.role == 'admin' || user.id == topic.user_id" (click)="updateTopic()" data-bs-toggle="modal" data-bs-target="#editTopic" (click)="selectTmpTopic(topic)" class="btn btn-outline-success btn-sm float-end"><i class="bi bi-pencil-square"></i></button>    
+                    </th>
                 </tr>
             </tbody>
         </table>
@@ -50,3 +53,41 @@
         </nav>
     </div>
 </div>
+
+<!-- Ventana para editar el topic (tema) -->
+<div class="modal fade" id="editTopic" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar tema</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input [(ngModel)]="tmpTopic.title" type="text" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button (click)="updateTopic()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ventana para eliminar el topic (tema) -->
+<div class="modal fade" id="deleteTopic" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar tema</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Esta seguro de que desea eliminar el tema <b>{{tmpTopic.title}}</b>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button (click)="deleteTopic()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Sí</button>
+        </div>
+      </div>
+    </div>
+  </div>
