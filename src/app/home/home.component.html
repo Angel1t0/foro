@@ -22,7 +22,7 @@
         <div class="col"></div>
     </div>
     <div class="row">
-        <table class="table table-dark table-hover">
+        <table class="table table-hover" [class.table-dark]="user.role == 'admin'">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -43,10 +43,10 @@
         </table>
         <!-- Para la paginación -->
         <nav>
-            <ul class="pagination">
+            <ul class="pagination justify-content-center">
                 <ng-container *ngFor="let page of pages">
                     <li class="page-item">
-                        <button (click)="readTopics(page.url)">{{page.label}}</button>
+                        <button (click)="readTopics(page.url)" class="page-link" style="color: #EDEDEE; background-color: #464646;" [class.active]="page.active">{{page.label}}</button>
                     </li>
                 </ng-container>
             </ul>

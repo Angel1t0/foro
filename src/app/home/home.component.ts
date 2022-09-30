@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiRestService } from '../api-rest.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,10 @@ export class HomeComponent implements OnInit {
   tmpTopic = {id:0, title:'', user_id:0};
   user = {id:0, username:"", role:""};
 
-  constructor( private rest: ApiRestService) { }
+  constructor( private rest: ApiRestService,
+    private msg: ToastrService) {
+    
+   }
 
   ngOnInit(): void {
     this.readTopics();
@@ -35,6 +39,9 @@ export class HomeComponent implements OnInit {
     this.rest.postTopics(this.newTopic).subscribe(
       r => {
         this.readTopics();
+        this.msg.success('Creado con exito!');
+      }, error => {
+        this.msg.error("Error al crear un topico", error.status)
       }
     );
   }
@@ -55,6 +62,7 @@ export class HomeComponent implements OnInit {
     this.rest.deleteTopics(this.tmpTopic).subscribe(
       r => {
         this.readTopics();
+        this.msg.success('Se ha eliminado correctamente!');
       },
     );
   }
